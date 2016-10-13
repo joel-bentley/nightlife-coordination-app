@@ -1,5 +1,6 @@
 // Module dependencies.
 var express = require('express');
+var bodyParser = require('body-parser');
 
 // Create Express server.
 var app = express();
@@ -7,6 +8,9 @@ var app = express();
 // Express configuration.
 app.set('port', process.env.API_PORT || 3001);
 
+// Parse application/json
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Values to serve to API routes
