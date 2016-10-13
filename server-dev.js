@@ -31,12 +31,12 @@ app.get('/api/clicks', function(req, res) {
 
 app.post('/api/clicks', function(req, res) {
 	clicks++;
-	res.send(200);
+	res.sendStatus(200);
 });
 
 app.delete('/api/clicks', function(req, res) {
 	clicks = 0;
-	res.send(200);
+	res.sendStatus(200);
 });
 
 app.get('/api/profile', function(req, res) {
@@ -44,10 +44,8 @@ app.get('/api/profile', function(req, res) {
 });
 
 app.get('/logout', function(req, res) {
-	res.send(200);
+	res.sendStatus(200);
 });
-
-
 
 // Start Express server.
 app.listen(app.get('port'), function() {
