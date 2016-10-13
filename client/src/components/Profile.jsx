@@ -1,11 +1,9 @@
 import React from 'react'
 import { Col, Table } from 'react-bootstrap'
 
-import githubLogo from '../img/gh-mark-32px.png'
-
 const Profile = ({ id, username, displayName, publicRepos }) => (
   <Col md={6} mdOffset={3} sm={8} smOffset={2}>
-    <img src={githubLogo} alt="github logo"/>
+    <img src="/img/gh-mark-32px.png" alt="github logo"/>
     <div className="text-left">
       <Table striped bordered hover responsive>
         <tbody>
