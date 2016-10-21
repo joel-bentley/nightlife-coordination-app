@@ -21,7 +21,8 @@ var profile = {
         id: '123456789',
         displayName: 'Testing!!!',
         username: 'test',
-        publicRepos: 42
+        publicRepos: 42,
+        avatar: 'http://localhost:3000/img/github_32px.png'
     };
 
 

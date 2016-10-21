@@ -17,19 +17,21 @@ class App extends React.Component {
       username: '',
       displayName: '',
       publicRepos: '',
+      avatar: '',
       clicks: 0
     }
 
   componentDidMount() {
     ajaxRequest('GET', `${API}/profile`, (profileData) => {
       ajaxRequest('GET', `${API}/clicks`, (clickData) => {
-        const { id, username, displayName, publicRepos } = JSON.parse(profileData)
+        const { id, username, displayName, publicRepos, avatar } = JSON.parse(profileData)
         const { clicks } = JSON.parse(clickData)
         this.setState({
           id,
           username,
           displayName,
           publicRepos,
+          avatar,
           clicks
         })
       })
@@ -54,11 +56,11 @@ class App extends React.Component {
     })
   }
   render() {
-    const { id, username, displayName, publicRepos, clicks } = this.state
+    const { id, username, displayName, publicRepos, avatar, clicks } = this.state
 
     return (
       <div className="App">
-        <NavigationBar/>
+        <NavigationBar {...{ displayName, avatar }}/>
 
         <div className="container">
 
