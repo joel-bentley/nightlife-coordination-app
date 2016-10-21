@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from 'react-router'
 import { Glyphicon, Navbar, NavDropdown, MenuItem, Nav, NavItem } from 'react-bootstrap'
 
-const NavigationBar = ({ displayName, avatar }) => {
+const NavigationBar = ({ displayName, avatar, router }) => {
 
   const isAuthenticated = displayName !== ''
+
   return (
     <Navbar fixedTop>
       <Navbar.Header>
@@ -28,15 +29,8 @@ const NavigationBar = ({ displayName, avatar }) => {
 
           {isAuthenticated ? (
               <NavDropdown title={<span><img src={avatar} role="presentation"/>{displayName}</span>} eventKey={3} id="basic-nav-dropdown">
-
-                <Link to="/profile">{({ href, onClick }) => (
-                    <MenuItem href={href} onSelect={onClick} eventKey={3.1}> Profile </MenuItem>
-                  )
-                }</Link>
-                <Link to="/logout">{({ href, onClick }) => (
-                    <MenuItem href={href} onSelect={onClick} eventKey={3.2}> Logout </MenuItem>
-                  )
-                }</Link>
+                <MenuItem onSelect={() => { router.transitionTo('/profile') }} eventKey={3.1}> Profile </MenuItem>
+                <MenuItem onSelect={() => { router.transitionTo('/logout') }} eventKey={3.2}> Logout </MenuItem>
               </NavDropdown>
           ) : (
             <Link to="/login">{({ href, onClick }) => (

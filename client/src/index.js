@@ -13,7 +13,9 @@ import './index.css'
 
 ReactDOM.render((
   <BrowserRouter>
-    <App />
+    {({ router }) => (
+      <App {...{ router }} />
+    )}
   </BrowserRouter>
 ),
   document.getElementById('root')

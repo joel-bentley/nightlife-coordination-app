@@ -56,11 +56,12 @@ class App extends React.Component {
     })
   }
   render() {
+    const { router } = this.props
     const { id, username, displayName, publicRepos, avatar, clicks } = this.state
 
     return (
       <div className="App">
-        <NavigationBar {...{ displayName, avatar }}/>
+        <NavigationBar {...{ displayName, avatar, router }}/>
 
         <div className="container">
 
