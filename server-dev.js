@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Values to serve to API routes
 
+var isAuthenticated = false;
+
 var clicks = 0;
 
 var profile = {
@@ -48,9 +50,17 @@ app.get('/api/profile', function(req, res) {
 	res.json(profile);
 });
 
-app.get('/logout', function(req, res) {
+
+app.get('/auth/github', function(req, res) {
+  isAuthenticated = true;
 	res.sendStatus(200);
 });
+
+app.get('/logout', function(req, res) {
+  isAuthenticated = false;
+	res.sendStatus(200);
+});
+
 
 // Start Express server.
 app.listen(app.get('port'), function() {
