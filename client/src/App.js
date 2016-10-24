@@ -76,7 +76,6 @@ class App extends React.Component {
     const { router } = this.props
     const { id, username, displayName, publicRepos, avatar, clicks } = this.state
 
-    //const isAuthenticated = false
     const isAuthenticated = displayName !== ''
 
     return (
@@ -99,8 +98,8 @@ class App extends React.Component {
             <Profile  {...{ id, username, displayName, publicRepos }}/>
           )}/>
 
-          <Match pattern="/login" component={() => (
-            <Login {...{ router }} handleLogin={this.handleLogin}/>
+          <Match pattern="/login" component={(props) => (
+            <Login {...props} {...{ router }} handleLogin={this.handleLogin}/>
           )}/>
 
         </div>

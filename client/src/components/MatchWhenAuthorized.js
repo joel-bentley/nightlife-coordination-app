@@ -8,7 +8,7 @@ const MatchWhenAuthorized = ({ component: Component, isAuthenticated, ...rest })
     ) : (
       <Redirect to={{
         pathname: '/login',
-        state: { from: props.location }
+        state: { referrer: props.location }
       }}/>
     )
   )}/>
