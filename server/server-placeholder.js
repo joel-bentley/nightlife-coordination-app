@@ -51,10 +51,15 @@ app.get('/api/profile', function(req, res) {
 });
 
 
-app.get('/auth/github', function(req, res) {
+app.post('/auth/github', function(req, res) {
   isAuthenticated = true;
 	res.sendStatus(200);
 });
+
+app.get('/auth/github/callback', function(req, res) {
+  res.sendStatus(200);
+});
+
 
 app.get('/logout', function(req, res) {
   isAuthenticated = false;

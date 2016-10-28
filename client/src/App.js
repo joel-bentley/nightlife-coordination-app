@@ -99,7 +99,7 @@ class App extends React.Component {
           )}/>
 
           <Match pattern="/login" component={(props) => (
-            <Login {...props} {...{ router }} handleLogin={this.handleLogin}/>
+            <Login {...props} {...{ isAuthenticated, router }} handleLogin={this.handleLogin}/>
           )}/>
 
         </div>
