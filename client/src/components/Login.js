@@ -14,8 +14,6 @@ const Login = (props) => {
       ) : (
         <div className="auth-buttons text-center">
           <Button bsStyle="primary" onClick={() => handleLogin('github', () => { router.transitionTo(referrer) })}>
-          {/* <Button bsStyle="primary" onClick={() => (window.location.href = '/auth/github')}> */}
-          {/* <Button bsStyle="primary" href='/auth/github'> */}
             <img src="/img/github_32px.png" className="auth-logo" role="presentation" /> Sign in with GitHub
           </Button>
         </div>

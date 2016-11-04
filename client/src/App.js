@@ -3,6 +3,7 @@ import { Match } from 'react-router'
 import MatchWhenAuthorized from './components/MatchWhenAuthorized'
 
 import { ajaxRequest } from './utils/ajax-request'
+import { githubLogin, logout } from './utils/oauth';
 
 import NavigationBar from './components/NavigationBar'
 import Intro from './components/Intro'
@@ -25,25 +26,26 @@ class App extends React.Component {
     }
 
   handleLogin = (method, callback) => {
-    ajaxRequest('GET', `/auth/${method}`, () => {
-      ajaxRequest('GET', `${API}/profile`, (profileData) => {
-        ajaxRequest('GET', `${API}/clicks`, (clickData) => {
-          const { id, username, displayName, publicRepos, avatar } = JSON.parse(profileData)
-          const { clicks } = JSON.parse(clickData)
-          this.setState({
-            id,
-            username,
-            displayName,
-            publicRepos,
-            avatar,
-            clicks
-          }, callback)
+    githubLogin()
+      .then( () => (
+        ajaxRequest('GET', `${API}/profile`, (profileData) => {
+          ajaxRequest('GET', `${API}/clicks`, (clickData) => {
+            const { id, username, displayName, publicRepos, avatar } = JSON.parse(profileData)
+            const { clicks } = JSON.parse(clickData)
+            this.setState({
+              id,
+              username,
+              displayName,
+              publicRepos,
+              avatar,
+              clicks
+            }, callback)
+          })
         })
-      })
-    })
+      ))
   }
   handleLogout = (callback) => {
-    ajaxRequest('GET', '/logout', () => {
+    logout(() => {
       this.setState({
         id: '',
         username: '',
