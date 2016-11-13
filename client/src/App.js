@@ -41,6 +41,7 @@ class App extends React.Component {
   handleLogin = () => {
     return githubLogin()
       .then( this.getData )
+      .catch(err => console.log('error:', err))
   }
 
   handleLogout = () => {
@@ -54,25 +55,25 @@ class App extends React.Component {
           avatar: '',
           clicks: 0
         })
-      })
+      }).catch(err => console.log('error:', err))
   }
 
   handleCountClick = () => {
     addClicks()
       .then(getClicks)
-      .then( (res) => {
+      .then( res => {
         const { clicks } = res.data
         this.setState({ clicks })
-      })
+      }).catch(err => console.log('error:', err))
   }
 
   handleResetClick = () => {
     resetClicks()
       .then(getClicks)
-      .then( (res) => {
+      .then( res => {
         const { clicks } = res.data
         this.setState({ clicks })
-      })
+      }).catch(err => console.log('error:', err))
   }
 
   render() {
