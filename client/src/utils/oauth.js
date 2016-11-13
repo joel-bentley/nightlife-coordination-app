@@ -130,9 +130,10 @@ function closePopup({ window, interval }) {
   });
 }
 
-export function logout(callback) {
-  cookie.remove('token');
-  console.log('LOGOUT_SUCCESS');
-
-  callback();
+export function logout() {
+  return new Promise((resolve, reject) => {
+    cookie.remove('token');
+    console.log('LOGOUT_SUCCESS');
+    resolve();
+  });
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Match } from 'react-router'
 import MatchWhenAuthorized from './components/MatchWhenAuthorized'
+import axios from 'axios'
 
-import { ajaxRequest } from './utils/ajax-request'
 import { githubLogin, logout } from './utils/oauth';
 
 import NavigationBar from './components/NavigationBar'
@@ -14,6 +14,10 @@ import Profile from './components/Profile'
 import './App.css'
 
 const API = '/api'
+const getProfile = () => axios.get(`${API}/profile`)
+const getClicks = () => axios.get(`${API}/clicks`)
+const addClicks = () => axios.post(`${API}/clicks`)
+const resetClicks = () => axios.delete(`${API}/clicks`)
 
 class App extends React.Component {
   state = {
@@ -23,57 +27,54 @@ class App extends React.Component {
       publicRepos: '',
       avatar: '',
       clicks: 0
-    }
+  }
 
-  handleLogin = (method, callback) => {
-    githubLogin()
-      .then( () => (
-        ajaxRequest('GET', `${API}/profile`, (profileData) => {
-          ajaxRequest('GET', `${API}/clicks`, (clickData) => {
-            const { id, username, displayName, publicRepos, avatar } = JSON.parse(profileData)
-            const { clicks } = JSON.parse(clickData)
-            this.setState({
-              id,
-              username,
-              displayName,
-              publicRepos,
-              avatar,
-              clicks
-            }, callback)
-          })
+  getData = () => {
+    return axios.all([ getProfile(), getClicks() ])
+      .then(res => {
+        const { id, username, displayName, publicRepos, avatar } = res[0].data
+        const { clicks } = res[1].data
+        this.setState({ id, username, displayName, publicRepos, avatar, clicks })
+      })
+  }
+
+  handleLogin = () => {
+    return githubLogin()
+      .then( this.getData )
+  }
+
+  handleLogout = () => {
+    return logout()
+      .then( () => {
+        this.setState({
+          id: '',
+          username: '',
+          displayName: '',
+          publicRepos: '',
+          avatar: '',
+          clicks: 0
         })
-      ))
+      })
   }
-  handleLogout = (callback) => {
-    logout(() => {
-      this.setState({
-        id: '',
-        username: '',
-        displayName: '',
-        publicRepos: '',
-        avatar: '',
-        clicks: 0
-      }, callback)
-    })
-  }
+
   handleCountClick = () => {
-    ajaxRequest('POST', `${API}/clicks`, () => {
-       ajaxRequest('GET', `${API}/clicks`, (clickData) => {
-         this.setState({
-           clicks: JSON.parse(clickData).clicks
-         })
-       })
-    })
+    addClicks()
+      .then(getClicks)
+      .then( (res) => {
+        const { clicks } = res.data
+        this.setState({ clicks })
+      })
   }
+
   handleResetClick = () => {
-    ajaxRequest('DELETE', `${API}/clicks`, () => {
-       ajaxRequest('GET', `${API}/clicks`, (clickData) => {
-         this.setState({
-           clicks: JSON.parse(clickData).clicks
-         })
-       })
-    })
+    resetClicks()
+      .then(getClicks)
+      .then( (res) => {
+        const { clicks } = res.data
+        this.setState({ clicks })
+      })
   }
+
   render() {
     const { router } = this.props
     const { id, username, displayName, publicRepos, avatar, clicks } = this.state
