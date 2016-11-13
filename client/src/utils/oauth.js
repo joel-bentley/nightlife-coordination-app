@@ -6,9 +6,9 @@ import cookie from 'react-cookie';
 // Sign in with Github
 export function githubLogin() {
   const githubConfig = {
-    url: 'http://localhost:3000/auth/github',
-    clientId: '10a386ce9ca4b5f7b4d0',
-    redirectUri: 'http://localhost:3000/auth/github/callback',
+    url: process.env.REACT_APP_URL + '/auth/github',
+    clientId: process.env.REACT_APP_GITHUB_KEY,
+    redirectUri: process.env.REACT_APP_URL + '/auth/github/callback',
     authorizationUrl: 'https://github.com/login/oauth/authorize',
     scope: 'user:email profile repo',
     width: 452,
