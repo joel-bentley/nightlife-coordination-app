@@ -68,7 +68,7 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Primary app routes.
-app.get(['/', '/profile', '/login', '/error'], userController.ensureAuthenticated, routeController.index);
+app.get(['/', '/profile', '/login'], routeController.index);
 
 // OAuth authentication routes.
 app.post('/auth/github', userController.authGithub);
