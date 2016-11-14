@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "node server/server.js",
-    "build": "cd client && npm install && react-scripts build",
+    "build": "cd client && npm install && node ./node_modules/react-scripts/bin/react-scripts.js build && cd ..",
     "dev": "nf start -p 3000 createreactapp,devserver",
     "devserver": "PORT=3001 nodemon server/server.js --ignore client/ --ignore node_modules/"
   }
