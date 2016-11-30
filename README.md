@@ -1,14 +1,21 @@
-# fcc-starter
-Development Boilerplate for React Projects with API server
+# nightlife-coordination-app
+Built for Nightlife Coordination App challenge on Free Code Camp. This project builds off my custom boilerplate project, fcc-starter.
 
-**Live Demo:** https://joel-bentley-fcc-starter.herokuapp.com/
+**Live Demo:** ~~https://joel-bentley-nightlife-coordination-app.herokuapp.com/~~ (not yet launched)
 
-This code is designed to be used with the Free Code Camp full-stack challenges.
+---
 
-This boilerplate uses create-react-app for client side development.
+User story requirements for this project: (<https://www.freecodecamp.com/challenges/build-a-nightlife-coordination-app>)
 
-Project is inspired by clementinejs and hackathon-starter boilerplate projects.
-Oauth code borrows from megaboilerplate and provides Github login.
+1. As an unauthenticated user, I can view all bars in my area.
+
+2. As an authenticated user, I can add myself to a bar to indicate I am going there tonight.
+
+3. As an authenticated user, I can remove myself from a bar if I no longer want to go there.
+
+4. As an unauthenticated user, when I login I should not have to search again.
+
+---
 
 To use, first add .env files in root and /client. These files require info from Oauth application setup on your Github account.
 Use yarn to install dependencies within root and /client directories.

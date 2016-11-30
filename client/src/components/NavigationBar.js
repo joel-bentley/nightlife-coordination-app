@@ -9,8 +9,8 @@ const NavigationBar = ({ router, isAuthenticated, displayName, avatar, handleLog
       <Navbar.Header>
         <Navbar.Brand>
           <Link to="/">
-            <Glyphicon glyph="fire" aria-hidden="true" />
-            FCC Starter Boilerplate
+            <Glyphicon glyph="glass" aria-hidden="true" />
+            Nightlife Coordination App
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle/>
