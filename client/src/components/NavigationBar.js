@@ -27,7 +27,7 @@ const NavigationBar = ({ router, isAuthenticated, displayName, avatar, handleLog
 
           {isAuthenticated ? (
               <NavDropdown title={<span><img src={avatar} role="presentation"/>{displayName}</span>} eventKey={3} id="basic-nav-dropdown">
-                <MenuItem onSelect={() => { router.transitionTo('/profile') }} eventKey={3.1}> Profile </MenuItem>
+                {/* <MenuItem onSelect={() => { router.transitionTo('/profile') }} eventKey={3.1}> Profile </MenuItem> */}
                 <MenuItem onSelect={() => { handleLogout().then( () => { router.transitionTo('/') }) }} eventKey={3.2}> Logout </MenuItem>
               </NavDropdown>
           ) : (

@@ -35,7 +35,7 @@ exports.authGithub = function(req, res) {
     var accessToken = token.access_token;
     var headers = {
         Authorization: 'Bearer ' + accessToken,
-        'User-Agent': 'FCCStarter'
+        'User-Agent': 'NightlifeApp'
       };
 
     // Step 2. Retrieve user's profile information.
@@ -45,17 +45,16 @@ exports.authGithub = function(req, res) {
       }
 
       // Step 3. Create a new user account or return an existing one.
-      User.findOne({ 'github.id': profile.id }, function(err, user) {
+      User.findOne({ 'github.userId': profile.id }, function(err, user) {
         if (user) {
           return res.send({ token: generateToken(user), user: user });
         }
 
         var newUser = new User();
 
-        newUser.github.id = profile.id;
+        newUser.github.userId = profile.id;
         newUser.github.username = profile.login;
         newUser.github.displayName = profile.name;
-        newUser.github.publicRepos = profile.public_repos;
         newUser.github.avatar = profile.avatar_url;
 
         newUser.save(function(err) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Match } from 'react-router'
-import MatchWhenAuthorized from './components/MatchWhenAuthorized'
+//import MatchWhenAuthorized from './components/MatchWhenAuthorized'
 import axios from 'axios'
 
 import { githubLogin, logout } from './utils/oauth';
@@ -8,34 +8,34 @@ import { githubLogin, logout } from './utils/oauth';
 import NavigationBar from './components/NavigationBar'
 import Intro from './components/Intro'
 import Login from './components/Login'
-import Home from './components/Home'
-import Profile from './components/Profile'
 
 import './App.css'
 
 const API = '/api'
 const getProfile = () => axios.get(`${API}/profile`)
-const getClicks = () => axios.get(`${API}/clicks`)
-const addClicks = () => axios.post(`${API}/clicks`)
-const resetClicks = () => axios.delete(`${API}/clicks`)
+const getVenues = () => axios.get(`${API}/venues`)
+
 
 class App extends React.Component {
   state = {
-      id: '',
+      userId: '',
       username: '',
       displayName: '',
-      publicRepos: '',
       avatar: '',
-      clicks: 0
+      venues: []
   }
 
   getData = () => {
-    return axios.all([ getProfile(), getClicks() ])
+    return axios.all([ getProfile(), getVenues() ])
       .then(res => {
-        const { id, username, displayName, publicRepos, avatar } = res[0].data
-        const { clicks } = res[1].data
-        this.setState({ id, username, displayName, publicRepos, avatar, clicks })
+        const { userId, username, displayName, avatar } = res[0].data
+        const venues = res[1].data
+
+        console.dir(venues)
+
+        this.setState({ userId, username, displayName, avatar, venues })
       })
+      .catch(err => console.log('error:', err))
   }
 
   handleLogin = () => {
@@ -48,7 +48,7 @@ class App extends React.Component {
     return logout()
       .then( () => {
         this.setState({
-          id: '',
+          userId: '',
           username: '',
           displayName: '',
           publicRepos: '',
@@ -58,27 +58,10 @@ class App extends React.Component {
       }).catch(err => console.log('error:', err))
   }
 
-  handleCountClick = () => {
-    addClicks()
-      .then(getClicks)
-      .then( res => {
-        const { clicks } = res.data
-        this.setState({ clicks })
-      }).catch(err => console.log('error:', err))
-  }
-
-  handleResetClick = () => {
-    resetClicks()
-      .then(getClicks)
-      .then( res => {
-        const { clicks } = res.data
-        this.setState({ clicks })
-      }).catch(err => console.log('error:', err))
-  }
 
   render() {
     const { router } = this.props
-    const { id, username, displayName, publicRepos, avatar, clicks } = this.state
+    const { displayName, avatar, venues } = this.state
 
     const isAuthenticated = displayName !== ''
 
@@ -89,17 +72,7 @@ class App extends React.Component {
         <div className="container">
 
           <Match exactly pattern="/" component={() => (
-            isAuthenticated ? (
-              <Home {...{ displayName, clicks }}
-                    handleCountClick={this.handleCountClick}
-                    handleResetClick={this.handleResetClick}/>
-            ) : (
-              <Intro />
-            )
-          )}/>
-
-          <MatchWhenAuthorized pattern="/profile" isAuthenticated={isAuthenticated} component={() => (
-            <Profile  {...{ id, username, displayName, publicRepos }}/>
+              <Intro {...{venues}} />
           )}/>
 
           <Match pattern="/login" component={(props) => (

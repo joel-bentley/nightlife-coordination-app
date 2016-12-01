@@ -15,11 +15,12 @@ dotenv.load();
 
 // Models
 var User = require('./models/User');
+var Venue = require('./models/Venue');
 
 // Controllers (route handlers).
 var userController = require('./controllers/user');
 var routeController = require('./controllers/route');
-var clickController = require('./controllers/click');
+var venueController = require('./controllers/venue');
 
 // Create Express server.
 var app = express();
@@ -68,19 +69,27 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Primary app routes.
-app.get(['/', '/profile', '/login'], routeController.index);
+app.get(['/', '/login'], routeController.index);
 
 // OAuth authentication routes.
 app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
 
 // API routes.
-app.get('/api/clicks', userController.ensureAuthenticated, clickController.getClicks);
-app.post('/api/clicks', userController.ensureAuthenticated, clickController.addClick);
-app.delete('/api/clicks', userController.ensureAuthenticated, clickController.resetClicks);
+app.get('/api/venues', venueController.getVenues);
 
-app.get('/api/profile', userController.ensureAuthenticated, function(req, res) {
-	res.json(req.user.github);
+app.get('/api/profile', function(req, res) {
+
+	  if (req.isAuthenticated() && req.user) {
+			res.json(req.user.github);
+		} else {
+			res.json({
+				userId: '',
+				username: '',
+				displayName: '',
+				avatar: ''
+			})
+		}
 });
 
 // Production error handler
