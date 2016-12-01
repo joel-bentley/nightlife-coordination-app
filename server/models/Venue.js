@@ -5,7 +5,7 @@ var Venue = new Schema({
   name: String,
   url: String,
   image_url: String,
-  snippet: String,
+  snippet_text: String,
   attending: Array
 });
 

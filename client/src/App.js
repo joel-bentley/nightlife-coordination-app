@@ -38,6 +38,10 @@ class App extends React.Component {
       .catch(err => console.log('error:', err))
   }
 
+  componentDidMount() {
+    this.getData()
+  }
+
   handleLogin = () => {
     return githubLogin()
       .then( this.getData )
@@ -51,9 +55,7 @@ class App extends React.Component {
           userId: '',
           username: '',
           displayName: '',
-          publicRepos: '',
           avatar: '',
-          clicks: 0
         })
       }).catch(err => console.log('error:', err))
   }

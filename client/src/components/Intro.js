@@ -10,10 +10,12 @@ const Intro = ({ venues }) => (
       <h3>An app to see where people are planning to be tonight</h3>
     </Jumbotron>
 
+    <br />
     <div className="text-center">
       <h4>See the list of bars in your area below.</h4>
       <h4>Log in to RSVP to the bar of your choosing.</h4>
     </div>
+    <br />
     <br />
     <VenueList {...{venues}} />
 
