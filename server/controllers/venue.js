@@ -1,7 +1,7 @@
 var Yelp = require('yelp');
 
 var Venue = require('../models/Venue.js');
-
+var User = require('../models/User');
 
 var yelp = new Yelp({
   consumer_key: process.env.YELP_CONSUMER_KEY,
@@ -12,6 +12,18 @@ var yelp = new Yelp({
 
 exports.getVenues = function(req, res) {
   var searchLocation = req.query.loc || '';
+
+  if (req.isAuthenticated() && req.user) {
+    User.findOneAndUpdate({
+      '_id': req.user._id
+    }, {
+      $set: {
+        searchLocation: searchLocation
+      }
+    }).exec(function(err, result) {
+      if (err) return console.error(err);
+    });
+  }
 
 	yelp.search({ category_filter: 'bars', location: searchLocation })
 		.then(data => {
@@ -66,5 +78,13 @@ exports.getVenues = function(req, res) {
 		.catch( err => {
 		  console.error(err);
 		});
+
+};
+
+exports.postRsvp = function(req, res) {
+
+};
+
+exports.deleteRsvps = function(req, res) {
 
 };
