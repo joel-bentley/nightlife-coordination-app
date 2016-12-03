@@ -1,5 +1,7 @@
-var Venue = require('../models/Venue.js');
 var Yelp = require('yelp');
+
+var Venue = require('../models/Venue.js');
+
 
 var yelp = new Yelp({
   consumer_key: process.env.YELP_CONSUMER_KEY,
@@ -9,28 +11,60 @@ var yelp = new Yelp({
 });
 
 exports.getVenues = function(req, res) {
+  var searchLocation = req.query.loc || '';
 
-	yelp.search({ category_filter: 'bars', location: 'Ann Arbor, MI' })
-		.then(function (data) {
-			var venues = data.businesses.map(function(item) {
+	yelp.search({ category_filter: 'bars', location: searchLocation })
+		.then(data => {
+			return data.businesses.map( venue => {
+
         return {
-          name: item.name,
-          url:item.url,
-          image_url:item.image_url,
-          snippet_text: item.snippet_text,
-          attending: []
+          name: venue.name,
+          id: venue.id,
+          url: venue.url,
+          image_url: venue.image_url,
+          address: venue.location.display_address,
+          snippet_text: venue.snippet_text,
         };
       });
+    })
+    .then( venues => {
+      var userId;
 
-    	return res.json(venues);
+      if (req.isAuthenticated() && req.user) {
+        userId = req.user._id.toString();
+      }
+
+      return Promise.all( venues.map( venue => {
+
+        return new Promise(function(resolve, reject) {
+
+          Venue.find({ venueId: venue.id })
+            .exec(function(err, result) {
+              if (err) return console.error(err);
+
+      		    if (result.length > 0) {
+                venue.numberAttending = result.usersAttending.length;
+
+                if (userId) {
+                  venue.isAttending = result.usersAttending
+                    .map( rsvp => (rsvp.userId))
+                    .includes(userId);
+                }
+              } else {
+                venue.numberAttending = 0;
+                venue.isAttending = false;
+              }
+              resolve(venue);
+      	    });
+        });
+      }));
+
 		})
-		.catch(function (err) {
+    .then( venues => {
+      res.json(venues);
+    })
+		.catch( err => {
 		  console.error(err);
 		});
 
-  // Venue.find(function (err, venues) {
-  //   if (err) return console.error(err);
-	//
-  //   res.json(venues);
-  // });
 };
