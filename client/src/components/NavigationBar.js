@@ -21,6 +21,7 @@ const NavigationBar = ({ router, isAuthenticated, displayName, avatar, handleLog
               <NavItem href={href} onClick={onClick} eventKey={1}> Home </NavItem>
             )
           }</Link>
+          <NavItem>Clear My RSVPs</NavItem>
         </Nav>
 
         <Nav pullRight>
