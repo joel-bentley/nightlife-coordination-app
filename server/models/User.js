@@ -7,7 +7,8 @@ var User = new Schema({
         displayName: String,
         username: String,
         avatar: String
-    }
+    },
+    searchLocation: String
 });
 
 module.exports = mongoose.model('User', User);

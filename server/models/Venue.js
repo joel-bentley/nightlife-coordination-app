@@ -2,11 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Venue = new Schema({
-  name: String,
-  url: String,
-  image_url: String,
-  snippet_text: String,
-  attending: Array
+  venueId: String,          // venue.id from Yelp API
+  usersAttending: Array     // [{ userId, date }]
 });
 
 module.exports = mongoose.model('Venue', Venue);
