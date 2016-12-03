@@ -2,8 +2,9 @@ import React from 'react'
 import { Jumbotron } from 'react-bootstrap'
 
 import VenueList from './VenueList'
+import ControlledInput from './ControlledInput'
 
-const Intro = ({ venues }) => (
+const Intro = ({ isAuthenticated, venues, searchLocation, handleLocationSubmit, handleRsvpClick }) => (
   <div>
     <Jumbotron style={{ paddingTop: '5px', paddingBottom: '30px', backgroundColor: '#eee' }}>
       <h1>Nightlife Coordination App</h1>
@@ -17,7 +18,15 @@ const Intro = ({ venues }) => (
     </div>
     <br />
     <br />
-    <VenueList {...{venues}} />
+    <ControlledInput
+      placeholder='Please enter your location to search for venues around you'
+      onSubmit={handleLocationSubmit}
+      inputValue={searchLocation}
+      buttonText="Search"
+    />
+    <br />
+    <br />
+    <VenueList {...{ isAuthenticated, venues, handleRsvpClick }} />
 
   </div>
 )
