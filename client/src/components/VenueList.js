@@ -35,17 +35,25 @@ const VenueList = ({ isAuthenticated, venues, handleRsvpClick }) => (
                   {
                     isAuthenticated ? (
                       isAttending ? (
-                        <Button bsStyle="success"
-                          onClick={()=>handleRsvpClick(id)}>You are going!</Button>
+                        <div>
+                          <Button bsStyle="success"
+                            onClick={()=>handleRsvpClick(id)}>You are going!</Button>
+                          <div>Click again to remove RSVP</div>
+                        </div>
                       ) : (
-                        <Button bsStyle="primary"
-                          onClick={()=>handleRsvpClick(id)}>RSVP Here</Button>
+                        <div>
+                          <Button bsStyle="primary"
+                            onClick={()=>handleRsvpClick(id)}>RSVP Here</Button>
+                          <br />
+                        </div>
                       )
                     ) : (
-                      <strong>Log in to RSVP</strong>
+                      <div>
+                        <strong>Log in to RSVP</strong>
+                        <br />
+                      </div>
                     )
                   }
-                  <br />
                   <br />
                   <strong>{numberAttending} going tonight!</strong>
                 </Col>
