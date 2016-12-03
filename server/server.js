@@ -76,24 +76,10 @@ app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
 
 // API routes.
+app.get('/api/profile', userController.getProfile);
 app.get('/api/venues', venueController.getVenues);
-
-app.get('/api/profile', function(req, res) {
-
-	  if (req.isAuthenticated() && req.user) {
-			res.json(req.user);
-		} else {
-			res.json({
-				github: {
-					userId: '',
-					username: '',
-					displayName: '',
-					avatar: ''
-				},
-				searchLocation: 'Ann Arbor'
-			})
-		}
-});
+app.post('/api/rsvp', userController.ensureAuthenticated, venueController.postRsvp);
+app.delete('/api/rsvp', userController.ensureAuthenticated, venueController.deleteRsvps);
 
 // Production error handler
 if (app.get('env') === 'production') {

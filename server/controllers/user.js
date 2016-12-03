@@ -78,3 +78,32 @@ exports.ensureAuthenticated = function(req, res, next) {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
+
+exports.getProfile = function(req, res) {
+	var profile = {};
+
+	if (req.isAuthenticated() && req.user) {
+		profile.github = req.user.github;
+
+    User.findOne({ '_id': req.user._id })
+    .exec(function(err, result) {
+      if (err) return console.error(err);
+
+      profile.searchLocation = result.searchLocation || '';
+
+      res.json(profile);
+    });
+	} else {
+		profile = {
+			github: {
+				userId: '',
+				username: '',
+				displayName: '',
+				avatar: ''
+			},
+      searchLocation: ''
+		};
+
+    res.json(profile);
+	}
+};
