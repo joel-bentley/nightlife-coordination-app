@@ -81,13 +81,16 @@ app.get('/api/venues', venueController.getVenues);
 app.get('/api/profile', function(req, res) {
 
 	  if (req.isAuthenticated() && req.user) {
-			res.json(req.user.github);
+			res.json(req.user);
 		} else {
 			res.json({
-				userId: '',
-				username: '',
-				displayName: '',
-				avatar: ''
+				github: {
+					userId: '',
+					username: '',
+					displayName: '',
+					avatar: ''
+				},
+				searchLocation: 'Ann Arbor'
 			})
 		}
 });

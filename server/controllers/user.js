@@ -56,6 +56,7 @@ exports.authGithub = function(req, res) {
         newUser.github.username = profile.login;
         newUser.github.displayName = profile.name;
         newUser.github.avatar = profile.avatar_url;
+        newUser.searchLocation = '';
 
         newUser.save(function(err) {
           res.send({ token: generateToken(newUser), user: newUser });
