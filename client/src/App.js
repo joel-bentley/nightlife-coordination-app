@@ -31,15 +31,15 @@ class App extends React.Component {
       .then(res => {
         const { userId, username, displayName, avatar } = res.data.github
         const { searchLocation } = res.data
-        this.setState({ userId, username, displayName, avatar, searchLocation },
-           () => console.dir(this.state))
+
+        this.setState({ userId, username, displayName, avatar, searchLocation })
 
         if (searchLocation !== '') {
           return getVenues(searchLocation)
             .then(res => {
               const venues = res.data
 
-              console.dir({venues})
+              // console.dir({venues})
 
               this.setState({ venues })
             })
@@ -83,8 +83,6 @@ class App extends React.Component {
 
   handleRsvpClick = venueId => {
     const index = this.state.venues.findIndex( venue => (venue.id === venueId))
-
-    console.dir({venueId, index})
 
     if (index !== -1) {
       let newVenues = JSON.parse(JSON.stringify(this.state.venues))
