@@ -1,7 +1,7 @@
 # nightlife-coordination-app
 Built for Nightlife Coordination App challenge on Free Code Camp. This project builds off my custom boilerplate project, fcc-starter.
 
-**Live Demo:** ~~https://joel-bentley-nightlife-app.herokuapp.com/~~ (not yet launched)
+**Live Demo:** https://joel-bentley-nightlife-app.herokuapp.com/
 
 ---
 
