@@ -14,6 +14,8 @@ import './App.css'
 const API = '/api'
 const getProfile = () => axios.get(`${API}/profile`)
 const getVenues = searchLocation => axios.get(`${API}/venues?loc=${searchLocation}`)
+const postRsvp = (venueId, date, isAttending) => axios.post(`${API}/rsvp`, { venueId, date, isAttending })
+const deleteRsvps = () => axios.delete(`${API}/rsvp`)
 
 
 class App extends React.Component {
@@ -38,8 +40,6 @@ class App extends React.Component {
           return getVenues(searchLocation)
             .then(res => {
               const venues = res.data
-
-              // console.dir({venues})
 
               this.setState({ venues })
             })
@@ -86,6 +86,7 @@ class App extends React.Component {
 
     if (index !== -1) {
       let newVenues = JSON.parse(JSON.stringify(this.state.venues))
+      const date = (new Date()).toString()
 
       if (newVenues[index].isAttending) {
         newVenues[index].isAttending = false
@@ -96,7 +97,24 @@ class App extends React.Component {
       }
 
       this.setState({ venues: newVenues })
+
+      postRsvp(venueId, date, newVenues[index].isAttending)
     }
+  }
+
+  handleClearRsvps = () => {
+    const newVenues = JSON.parse(JSON.stringify(this.state.venues))
+                        .map( venue => {
+                          if (venue.isAttending) {
+                            venue.numberAttending--
+                          }
+                          venue.isAttending = false
+                          return venue
+                        })
+
+    this.setState({ venues: newVenues })
+
+    deleteRsvps()
   }
 
   render() {
@@ -107,7 +125,9 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <NavigationBar {...{ router, isAuthenticated, displayName, avatar }} handleLogout={this.handleLogout}/>
+        <NavigationBar {...{ router, isAuthenticated, displayName, avatar }}
+          handleLogout={this.handleLogout}
+          handleClearRsvps={this.handleClearRsvps} />
 
         <div className="container">
 
