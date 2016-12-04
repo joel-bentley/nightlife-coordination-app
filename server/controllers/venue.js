@@ -11,7 +11,7 @@ var yelp = new Yelp({
 });
 
 exports.getVenues = function(req, res) {
-  var searchLocation = req.query.loc || '';
+  var searchLocation = req.query.loc || 'Ann Arbor';
 
   if (req.isAuthenticated() && req.user) {
     User.findOneAndUpdate({
@@ -55,10 +55,11 @@ exports.getVenues = function(req, res) {
               if (err) return console.error(err);
 
       		    if (result.length > 0) {
-                venue.numberAttending = result.usersAttending.length;
+
+                venue.numberAttending = result[0].usersAttending.length;
 
                 if (userId) {
-                  venue.isAttending = result.usersAttending
+                  venue.isAttending = result[0].usersAttending
                     .map( rsvp => (rsvp.userId))
                     .includes(userId);
                 }
@@ -82,9 +83,64 @@ exports.getVenues = function(req, res) {
 };
 
 exports.postRsvp = function(req, res) {
+  var { venueId, date, isAttending } = req.body;
+  var userId = req.user._id.toString();
+
+  if (isAttending) {
+    Venue.findOneAndUpdate({
+      'venueId': venueId
+    }, {
+      $addToSet: {
+        usersAttending: {
+          userId: userId,
+          date: date
+        }
+      }
+    }, {
+      upsert: true
+    }).exec(function(err, result) {
+      if (err) return console.error(err);
+
+      res.sendStatus(200);
+    });
+
+  } else {
+
+    Venue.findOneAndUpdate({
+      'venueId': venueId
+    }, {
+      $pull: {
+        usersAttending: {
+          userId: userId
+        }
+      }
+    }, {
+      upsert: true
+    }).exec(function(err, result) {
+      if (err) return console.error(err);
+
+      res.sendStatus(200);
+    });
+  }
+
 
 };
 
 exports.deleteRsvps = function(req, res) {
 
+  var userId = req.user._id.toString();
+
+  Venue.update({}, {
+    $pull: {
+      usersAttending: {
+        userId: userId
+      }
+    }
+  }, {
+    multi: true
+  }).exec(function(err, result) {
+    if (err) return console.error(err);
+
+    res.sendStatus(200);
+  });
 };
