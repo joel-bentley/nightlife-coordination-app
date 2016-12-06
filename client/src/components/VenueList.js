@@ -1,8 +1,5 @@
 import React from 'react'
-// import { Link } from 'react-router'
 import { Button, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap'
-
-// import './VenueList.css'
 
 
 const VenueList = ({ isAuthenticated, venues, handleRsvpClick }) => (

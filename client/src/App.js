@@ -9,8 +9,6 @@ import NavigationBar from './components/NavigationBar'
 import Intro from './components/Intro'
 import Login from './components/Login'
 
-import './App.css'
-
 const API = '/api'
 const getProfile = () => axios.get(`${API}/profile`)
 const getVenues = searchLocation => axios.get(`${API}/venues?loc=${searchLocation}`)
