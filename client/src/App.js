@@ -101,7 +101,7 @@ class App extends React.Component {
   }
 
   handleClearRsvps = () => {
-    const newVenues = JSON.parse(JSON.stringify(this.state.venues))
+    const newVenues = this.state.venues
                         .map( venue => {
                           if (venue.isAttending) {
                             venue.numberAttending--
