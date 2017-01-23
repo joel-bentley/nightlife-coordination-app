@@ -9,19 +9,33 @@ import {
   NavItem,
 } from 'react-bootstrap';
 
-const NavigationBar = (
-  {
-    router,
-    isAuthenticated,
-    displayName,
-    avatar,
-    handleClearRsvps,
-    handleLogout,
-  },
-) =>
-  {
+class NavigationBar extends React.Component {
+  state = { expanded: false };
+
+  toggle = () => {
+    this.setState(prevState => ({ expanded: !prevState.expanded }));
+  };
+
+  close = () => {
+    this.setState({ expanded: false });
+  };
+
+  render() {
+    const {
+      router,
+      isAuthenticated,
+      displayName,
+      avatar,
+      handleClearRsvps,
+      handleLogout,
+    } = this.props;
     return (
-      <Navbar fixedTop>
+      <Navbar
+        fixedTop
+        onToggle={this.toggle}
+        expanded={this.state.expanded}
+        collapseOnSelect
+      >
         <Navbar.Header>
           <Navbar.Brand>
             <Link to="/">
@@ -36,20 +50,23 @@ const NavigationBar = (
           <Nav pullRight>
             {isAuthenticated ? [
                   (
-                    <NavItem onClick={handleClearRsvps} eventKey={1} key={1}>
+                    <NavItem
+                      onClick={handleClearRsvps}
+                      onSelect={this.close}
+                      eventKey={1}
+                      key={1}
+                    >
                       Clear My RSVPs
                     </NavItem>
                   ),
                   (
                     <NavDropdown
-                      title={
-                        (
+                      title={(
                           <span>
                             <img src={avatar} role="presentation" />
                             {displayName}
                           </span>
-                        )
-                      }
+                        )}
                       eventKey={3}
                       key={2}
                       id="basic-nav-dropdown"
@@ -64,11 +81,23 @@ const NavigationBar = (
                       > Logout </MenuItem>
                     </NavDropdown>
                   ),
-                ] : <Link to="/login">{({ href, onClick }) => <NavItem href={href} onClick={onClick} eventKey={3}> Login </NavItem>}</Link>}
+                ] : <Link to="/login">
+                  {({ href, onClick }) => (
+                      <NavItem
+                        href={href}
+                        onClick={onClick}
+                        onSelect={this.close}
+                        eventKey={3}
+                      >
+                        Login
+                      </NavItem>
+                    )}
+                </Link>}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     );
-  };
+  }
+}
 
 export default NavigationBar;
