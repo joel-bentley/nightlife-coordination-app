@@ -1,16 +1,27 @@
-import React from 'react'
-import { Jumbotron } from 'react-bootstrap'
+import React from 'react';
+import { Jumbotron } from 'react-bootstrap';
 
-import VenueList from './VenueList'
-import ControlledInput from './ControlledInput'
+import VenueList from './VenueList';
+import ControlledInput from './ControlledInput';
 
-const Intro = ({ isAuthenticated, venues, searchLocation, handleLocationSubmit, handleRsvpClick }) => (
+const Intro = (
+  {
+    isAuthenticated,
+    venues,
+    searchLocation,
+    handleLocationSubmit,
+    handleRsvpClick,
+  },
+) => (
   <div>
-    <Jumbotron style={{ paddingTop: '5px', paddingBottom: '30px', backgroundColor: '#eee' }}>
+    <Jumbotron
+      style={
+        { paddingTop: '5px', paddingBottom: '30px', backgroundColor: '#eee' }
+      }
+    >
       <h1>Nightlife Coordination App</h1>
       <h3>An app to see where people are planning to be tonight</h3>
     </Jumbotron>
-
     <br />
     <div className="text-center">
       <h4>See the list of bars in your area below.</h4>
@@ -19,7 +30,7 @@ const Intro = ({ isAuthenticated, venues, searchLocation, handleLocationSubmit, 
     <br />
     <br />
     <ControlledInput
-      placeholder='Please enter your location to search for venues around you'
+      placeholder="Please enter your location to search for venues around you"
       onSubmit={handleLocationSubmit}
       inputValue={searchLocation}
       buttonText="Search"
@@ -27,8 +38,7 @@ const Intro = ({ isAuthenticated, venues, searchLocation, handleLocationSubmit, 
     <br />
     <br />
     <VenueList {...{ isAuthenticated, venues, handleRsvpClick }} />
-
   </div>
-)
+);
 
-export default Intro
+export default Intro;
