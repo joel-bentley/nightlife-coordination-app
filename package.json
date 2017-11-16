@@ -24,6 +24,7 @@
     "start": "node server/server.js",
     "build": "cd client && npm run build && cd ..",
     "dev": "nf start -p 3000 createreactapp,devserver",
-    "devserver": "PORT=3001 nodemon server/server.js --ignore client/ --ignore node_modules/"
+    "devserver": "PORT=3001 nodemon server/server.js --ignore client/ --ignore node_modules/",
+    "prettier": "prettier --single-quote --trailing-comma es5 --write '**/*.js'"
   }
 }

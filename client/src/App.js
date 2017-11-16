@@ -136,27 +136,23 @@ class App extends React.Component {
           <Match
             exactly
             pattern="/"
-            component={
-              () => (
-                <Intro
-                  {...{ isAuthenticated, venues, searchLocation }}
-                  handleLocationSubmit={this.handleLocationSubmit}
-                  handleRsvpClick={this.handleRsvpClick}
-                />
-              )
-            }
+            component={() => (
+              <Intro
+                {...{ isAuthenticated, venues, searchLocation }}
+                handleLocationSubmit={this.handleLocationSubmit}
+                handleRsvpClick={this.handleRsvpClick}
+              />
+            )}
           />
           <Match
             pattern="/login"
-            component={
-              props => (
-                <Login
-                  {...props}
-                  {...{ isAuthenticated, router }}
-                  handleLogin={this.handleLogin}
-                />
-              )
-            }
+            component={props => (
+              <Login
+                {...props}
+                {...{ isAuthenticated, router }}
+                handleLogin={this.handleLogin}
+              />
+            )}
           />
         </div>
       </div>

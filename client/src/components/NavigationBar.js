@@ -48,51 +48,54 @@ class NavigationBar extends React.Component {
         <Navbar.Collapse>
           {}
           <Nav pullRight>
-            {isAuthenticated ? [
-                  (
-                    <NavItem
-                      onClick={handleClearRsvps}
-                      onSelect={this.close}
-                      eventKey={1}
-                      key={1}
-                    >
-                      Clear My RSVPs
-                    </NavItem>
-                  ),
-                  (
-                    <NavDropdown
-                      title={(
-                          <span>
-                            <img src={avatar} role="presentation" />
-                            {displayName}
-                          </span>
-                        )}
-                      eventKey={3}
-                      key={2}
-                      id="basic-nav-dropdown"
-                    >
-                      <MenuItem
-                        onSelect={() => {
-                            handleLogout().then(() => {
-                              router.transitionTo('/');
-                            });
-                          }}
-                        eventKey={3.2}
-                      > Logout </MenuItem>
-                    </NavDropdown>
-                  ),
-                ] : <Link to="/login">
-                  {({ href, onClick }) => (
-                      <NavItem
-                        href={href}
-                        onClick={onClick}
-                        onSelect={this.close}
-                        eventKey={3}
-                      >
-                        Login
-                      </NavItem>
-                    )}
-                </Link>}
+            {isAuthenticated ? (
+              [
+                <NavItem
+                  onClick={handleClearRsvps}
+                  onSelect={this.close}
+                  eventKey={1}
+                  key={1}
+                >
+                  Clear My RSVPs
+                </NavItem>,
+                <NavDropdown
+                  title={
+                    <span>
+                      <img src={avatar} role="presentation" />
+                      {displayName}
+                    </span>
+                  }
+                  eventKey={3}
+                  key={2}
+                  id="basic-nav-dropdown"
+                >
+                  <MenuItem
+                    onSelect={() => {
+                      handleLogout().then(() => {
+                        router.transitionTo('/');
+                      });
+                    }}
+                    eventKey={3.2}
+                  >
+                    {' '}
+                    Logout{' '}
+                  </MenuItem>
+                </NavDropdown>,
+              ]
+            ) : (
+              <Link to="/login">
+                {({ href, onClick }) => (
+                  <NavItem
+                    href={href}
+                    onClick={onClick}
+                    onSelect={this.close}
+                    eventKey={3}
+                  >
+                    Login
+                  </NavItem>
+                )}
+              </Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -28,11 +28,14 @@ var app = express();
 // Connect to MongoDB.
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
 mongoose.connection.on('connected', function() {
-	console.log('%s MongoDB connection established!', chalk.green('✓'));
+  console.log('%s MongoDB connection established!', chalk.green('✓'));
 });
 mongoose.connection.on('error', function() {
-	console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-	process.exit();
+  console.log(
+    '%s MongoDB connection error. Please make sure MongoDB is running.',
+    chalk.red('✗')
+  );
+  process.exit();
 });
 mongoose.Promise = global.Promise;
 
@@ -46,7 +49,9 @@ app.use(cookieParser());
 
 app.use(function(req, res, next) {
   req.isAuthenticated = function() {
-    var token = (req.headers.authorization && req.headers.authorization.split(' ')[1]) || req.cookies.token;
+    var token =
+      (req.headers.authorization && req.headers.authorization.split(' ')[1]) ||
+      req.cookies.token;
     try {
       return jwt.verify(token, process.env.TOKEN_SECRET);
     } catch (err) {
@@ -65,7 +70,6 @@ app.use(function(req, res, next) {
   }
 });
 
-
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Primary app routes.
@@ -78,8 +82,16 @@ app.get('/auth/github/callback', userController.authGithubCallback);
 // API routes.
 app.get('/api/profile', userController.getProfile);
 app.get('/api/venues', venueController.getVenues);
-app.post('/api/rsvp', userController.ensureAuthenticated, venueController.postRsvp);
-app.delete('/api/rsvp', userController.ensureAuthenticated, venueController.deleteRsvps);
+app.post(
+  '/api/rsvp',
+  userController.ensureAuthenticated,
+  venueController.postRsvp
+);
+app.delete(
+  '/api/rsvp',
+  userController.ensureAuthenticated,
+  venueController.deleteRsvps
+);
 
 // Production error handler
 if (app.get('env') === 'production') {
@@ -91,5 +103,10 @@ if (app.get('env') === 'production') {
 
 // Start Express server.
 app.listen(app.get('port'), function() {
-	console.log('%s Express server listening on port %d in %s mode.', chalk.green('✓'), app.get('port'), app.get('env'));
+  console.log(
+    '%s Express server listening on port %d in %s mode.',
+    chalk.green('✓'),
+    app.get('port'),
+    app.get('env')
+  );
 });

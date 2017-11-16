@@ -9,7 +9,9 @@ function generateToken(user) {
     iss: 'my.domain.com',
     sub: user.id,
     iat: moment().unix(),
-    exp: moment().add(7, 'days').unix()
+    exp: moment()
+      .add(7, 'days')
+      .unix(),
   };
   return jwt.sign(payload, process.env.TOKEN_SECRET);
 }
@@ -27,19 +29,27 @@ exports.authGithub = function(req, res) {
     client_id: req.body.clientId,
     client_secret: process.env.GITHUB_SECRET,
     redirect_uri: req.body.redirectUri,
-    grant_type: 'authorization_code'
+    grant_type: 'authorization_code',
   };
 
   // Step 1. Exchange authorization code for access token.
-  request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
+  request.post(accessTokenUrl, { json: true, form: params }, function(
+    err,
+    response,
+    token
+  ) {
     var accessToken = token.access_token;
     var headers = {
-        Authorization: 'Bearer ' + accessToken,
-        'User-Agent': 'NightlifeApp'
-      };
+      Authorization: 'Bearer ' + accessToken,
+      'User-Agent': 'NightlifeApp',
+    };
 
     // Step 2. Retrieve user's profile information.
-    request.get({ url: userUrl, headers: headers, json: true }, function(err, response, profile) {
+    request.get({ url: userUrl, headers: headers, json: true }, function(
+      err,
+      response,
+      profile
+    ) {
       if (profile.error) {
         return res.status(500).send({ message: profile.error.message });
       }
@@ -80,30 +90,29 @@ exports.ensureAuthenticated = function(req, res, next) {
 };
 
 exports.getProfile = function(req, res) {
-	var profile = {};
+  var profile = {};
 
-	if (req.isAuthenticated() && req.user) {
-		profile.github = req.user.github;
+  if (req.isAuthenticated() && req.user) {
+    profile.github = req.user.github;
 
-    User.findOne({ '_id': req.user._id })
-    .exec(function(err, result) {
+    User.findOne({ _id: req.user._id }).exec(function(err, result) {
       if (err) return console.error(err);
 
       profile.searchLocation = result.searchLocation || '';
 
       res.json(profile);
     });
-	} else {
-		profile = {
-			github: {
-				userId: '',
-				username: '',
-				displayName: '',
-				avatar: ''
-			},
-      searchLocation: ''
-		};
+  } else {
+    profile = {
+      github: {
+        userId: '',
+        username: '',
+        displayName: '',
+        avatar: '',
+      },
+      searchLocation: '',
+    };
 
     res.json(profile);
-	}
+  }
 };

@@ -4,20 +4,20 @@ import { Jumbotron } from 'react-bootstrap';
 import VenueList from './VenueList';
 import ControlledInput from './ControlledInput';
 
-const Intro = (
-  {
-    isAuthenticated,
-    venues,
-    searchLocation,
-    handleLocationSubmit,
-    handleRsvpClick,
-  },
-) => (
+const Intro = ({
+  isAuthenticated,
+  venues,
+  searchLocation,
+  handleLocationSubmit,
+  handleRsvpClick,
+}) => (
   <div>
     <Jumbotron
-      style={
-        { paddingTop: '5px', paddingBottom: '30px', backgroundColor: '#eee' }
-      }
+      style={{
+        paddingTop: '5px',
+        paddingBottom: '30px',
+        backgroundColor: '#eee',
+      }}
     >
       <h1>Nightlife Coordination App</h1>
       <h3>An app to see where people are planning to be tonight</h3>

@@ -8,9 +8,10 @@ const Login = props => {
   const { referrer } = props.location.state || { referrer: '/' };
   const { handleLogin, isAuthenticated, router } = props;
 
-  return isAuthenticated
-    ? <Redirect to="/" />
-    : <div className="auth-buttons text-center">
+  return isAuthenticated ? (
+    <Redirect to="/" />
+  ) : (
+    <div className="auth-buttons text-center">
       <Button
         bsStyle="primary"
         onClick={() => handleLogin().then(() => router.transitionTo(referrer))}
@@ -19,10 +20,11 @@ const Login = props => {
           src="/img/github_32px.png"
           className="auth-logo"
           role="presentation"
-        />
-        {' '}Sign in with GitHub
+        />{' '}
+        Sign in with GitHub
       </Button>
-    </div>;
+    </div>
+  );
 };
 
 export default Login;
